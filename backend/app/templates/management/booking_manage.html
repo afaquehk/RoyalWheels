@@ -1,0 +1,96 @@
+{% extends "management/base.html" %}
+
+{% block title %}Bookings{% endblock %}
+
+{% block content %}
+<section class="panel page-hero">
+    <div class="panel-head">
+        <h1>Rental Management</h1>
+        <span class="chip">{{ bookings|length }} Bookings</span>
+    </div>
+    <p class="muted">Bookings are added automatically when users book vehicles. Review and accept/reject here.</p>
+</section>
+
+<section>
+    <article class="panel">
+        <div class="panel-head">
+            <h2>My Bookings</h2>
+        </div>
+        <div class="table-wrap modern-table-wrap">
+            <table class="modern-table">
+                <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Phone</th>
+                    <th>LPU ID</th>
+                    <th>Docs</th>
+                    <th>Vehicle</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Type</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for booking in bookings %}
+                    <tr>
+                        <td>{{ booking.customer_name }}</td>
+                        <td>{{ booking.customer_phone }}</td>
+                        <td>{{ booking.customer_lpu_id|default:"-" }}</td>
+                        <td>
+                            {% if booking.driving_license_doc %}
+                                <a class="mini-btn" href="{{ booking.driving_license_doc.url }}" target="_blank" rel="noopener">License</a>
+                            {% endif %}
+                            {% if booking.student_id_doc %}
+                                <a class="mini-btn" href="{{ booking.student_id_doc.url }}" target="_blank" rel="noopener">Student ID</a>
+                            {% endif %}
+                            {% if not booking.driving_license_doc and not booking.student_id_doc %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>{{ booking.vehicle }}</td>
+                        <td>{{ booking.start_date }}{% if booking.start_time %} {{ booking.start_time }}{% endif %}</td>
+                        <td>{{ booking.end_date }}{% if booking.end_time %} {{ booking.end_time }}{% endif %}</td>
+                        <td>{{ booking.get_rental_unit_display }}</td>
+                        <td>Rs {{ booking.total_price }}</td>
+                        <td>
+                            {% if booking.status == "pending" %}
+                                <span class="status-badge is-warn">{{ booking.get_status_display }}</span>
+                            {% elif booking.status == "confirmed" %}
+                                <span class="status-badge is-ok">{{ booking.get_status_display }}</span>
+                            {% elif booking.status == "cancelled" %}
+                                <span class="status-badge is-off">{{ booking.get_status_display }}</span>
+                            {% else %}
+                                <span class="status-badge">{{ booking.get_status_display }}</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if booking.status == "pending" %}
+                                <form method="post" action="{% url 'booking_decision' booking.id %}" class="action-form">
+                                    {% csrf_token %}
+                                    <button type="submit" name="decision" value="accept" class="accept-btn">Accept</button>
+                                    <button type="submit" name="decision" value="reject" class="reject-btn">Reject</button>
+                                </form>
+                            {% elif booking.status == "confirmed" %}
+                                <form method="post" action="{% url 'booking_decision' booking.id %}" class="action-form">
+                                    {% csrf_token %}
+                                    <button type="submit" name="decision" value="complete" class="complete-btn">Complete</button>
+                                </form>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="11" class="empty-row">No bookings added yet.</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </article>
+</section>
+{% endblock %}

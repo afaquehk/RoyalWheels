@@ -1,0 +1,23 @@
+# Virtual environments
+.venv/
+myenv/
+venv/
+env/
+
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Editors / IDE metadata
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Django local runtime data
+*.sqlite3
+*.log
