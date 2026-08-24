@@ -1,0 +1,88 @@
+body {
+  font-family: Inter;
+  background: #eef2f7;
+}
+
+.payment-container {
+  width: 500px;
+  margin: 100px auto;
+  background: white;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+}
+.head{
+  font-size: 40px;
+  margin-top: -10px;
+}
+
+.booking-summary {
+  background: #f8fafc;
+  padding: 20px;
+  height: 225px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+.vehicleName{
+  font-size: 20px;
+}
+#vehicleName {
+  margin-top: 20px;
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+.return{
+  font-size: 18px;
+  margin-top: 10px;
+}
+.pickup{
+  font-size: 18px;
+  margin-top: 10px;
+}
+.total {
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.payment-method label {
+  display: block;
+  margin: 12px 0;
+}
+
+.payment-method button {
+  width: 100%;
+  padding: 14px;
+  background: #4f6ef7;
+  color: white;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+.payment-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+.payment-left {
+  flex: 1;
+}
+
+.payment-right {
+  flex: 1;
+  display: flex;
+  justify-content: end;
+  align-items: flex-end;
+  margin-top: -175px;
+}
+
+.payment-right img {
+  width: 50%;
+  max-width: 500px;
+  margin-right: 10px;
+  border-radius: 30px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+

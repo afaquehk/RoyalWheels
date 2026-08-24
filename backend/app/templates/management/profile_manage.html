@@ -1,0 +1,62 @@
+{% extends "management/base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<section class="panel page-hero">
+    <div class="panel-head">
+        <h1>Owner Profile</h1>
+        <span class="chip">Business Profile</span>
+    </div>
+    <p class="muted">Create or update your rental business profile.</p>
+</section>
+
+<section class="split split-wide">
+    <article class="panel form-panel">
+        <div class="panel-head">
+            <h2>Profile Details</h2>
+        </div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="photo-editor">
+                <img
+                    id="profilePhotoPreview"
+                    src="{% if owner and owner.profile_photo %}{{ owner.profile_photo.url }}{% elif owner and owner.profile_photo_url %}{{ owner.profile_photo_url }}{% else %}https://via.placeholder.com/120x120.png?text=Photo{% endif %}"
+                    alt="Profile Preview"
+                >
+                <div>
+                    <label for="{{ form.profile_photo.id_for_label }}">Upload Profile Photo (From PC)</label>
+                    {{ form.profile_photo }}
+                    <small class="muted">Choose an image from your computer.</small>
+                    {% if form.profile_photo.errors %}
+                        <small class="error">{{ form.profile_photo.errors|striptags }}</small>
+                    {% endif %}
+                </div>
+            </div>
+            {% for field in form %}
+                {% if field.name != "profile_photo_url" and field.name != "profile_photo" %}
+                <div class="field">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <small class="error">{{ field.errors|striptags }}</small>
+                    {% endif %}
+                </div>
+                {% endif %}
+            {% endfor %}
+            <button type="submit">Save Profile</button>
+        </form>
+    </article>
+
+    <article class="panel info-panel">
+        <h3>Profile Checklist</h3>
+        <p class="muted">Complete all business details to improve trust and booking conversion.</p>
+        <ul class="check-list">
+            <li>Business name and phone number</li>
+            <li>Accurate pickup address</li>
+            <li>License and verification details</li>
+            <li>Clear profile photo</li>
+        </ul>
+    </article>
+</section>
+{% endblock %}
