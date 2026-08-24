@@ -1,9 +1,14 @@
 {
   "version": 2,
+  "buildCommand": "cd backend && python manage.py migrate --noinput && python manage.py collectstatic --noinput",
   "builds": [
     {
       "src": "server.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "maxLambdaSize": "15mb",
+        "runtime": "python3.11"
+      }
     }
   ],
   "routes": [
@@ -11,5 +16,11 @@
       "src": "/(.*)",
       "dest": "server.py"
     }
-  ]
+  ],
+  "env": {
+    "DEBUG": "@debug",
+    "DATABASE_URL": "@database_url",
+    "SECRET_KEY": "@secret_key"
+  }
 }
+
